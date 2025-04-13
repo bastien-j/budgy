@@ -7,7 +7,7 @@ const totalExpenses = computed(() => Math.ceil(operations.value.reduce((acc, ope
 
 const remaining = computed(() => Math.max(income.value - totalExpenses.value, 0))
 
-const remainingPercentage = computed(() => (remaining.value / (income.value ?? 1)) * 100)
+const remainingPercentage = computed(() => (remaining.value / Math.max(income.value, 1)) * 100)
 
 const color = computed(() => {
   if (remainingPercentage.value < 20) {
