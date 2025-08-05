@@ -12,7 +12,7 @@ const overlay = useOverlay()
 const modalDelete = overlay.create(ModalDelete)
 
 async function removeCategoryHandler(list: List) {
-  const confirm = await modalDelete.open()
+  const confirm = await modalDelete.open().result
   if (confirm) {
     removeCategory(list.id)
   }

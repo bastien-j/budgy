@@ -12,7 +12,7 @@ const overlay = useOverlay()
 const modalDelete = overlay.create(ModalDelete)
 
 async function removeOperationHandler(id: string) {
-  const confirm = await modalDelete.open()
+  const confirm = await modalDelete.open().result
   if (confirm) {
     removeOperation(id)
   }

@@ -12,7 +12,7 @@ export default defineNuxtConfig({
   ui: {
     colorMode: false,
   },
-  compatibilityDate: '2024-11-01',
+  compatibilityDate: '2025-05-15',
   eslint: {
     config: {
       stylistic: true,
