@@ -15,3 +15,21 @@ router.post('/register', [() => import('#controllers/auth_controller'), 'registe
 router
   .get('/logout', [() => import('#controllers/auth_controller'), 'logout'])
   .use(middleware.auth())
+
+router
+  .resource('categories', () => import('#controllers/categories_controller'))
+  .apiOnly()
+  .use('*', middleware.auth())
+  .use(['show', 'update', 'destroy'], middleware.category())
+
+router
+  .resource('categories.operations', () => import('#controllers/operations_controller'))
+  .apiOnly()
+  .use('*', middleware.auth())
+  .use(['show', 'update', 'destroy'], middleware.operation())
+
+router
+  .resource('operations', () => import('#controllers/operations_controller'))
+  .apiOnly()
+  .use('*', middleware.auth())
+  .use(['show', 'update', 'destroy'], middleware.operation())
