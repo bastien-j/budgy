@@ -1,0 +1,14 @@
+volumes:
+  postgres_data:
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: budgy
+      POSTGRES_PASSWORD: budgy
+      POSTGRES_DB: budgy
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
