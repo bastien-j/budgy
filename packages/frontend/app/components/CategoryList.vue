@@ -1,11 +1,12 @@
 <script setup lang="ts">
-const { categories } = useCategories()
-const { operations } = useOperations()
+const categoriesStore = useCategoriesStore()
+
+const operationsStore = useOperationsStore()
 
 const lists = computed(() => {
   const _lists = []
-  for (const category of categories.value) {
-    const _operations = operations.value.filter(operation => operation.categoryId === category.id).sort((a, b) => b.amount - a.amount)
+  for (const category of categoriesStore.categories ?? []) {
+    const _operations = operationsStore.operations?.filter(operation => operation.categoryId === category.id).sort((a, b) => b.amount - a.amount) ?? []
     _lists.push({
       id: category.id,
       name: category.name,

@@ -1,21 +1,20 @@
 <script setup lang="ts">
 import type { FormSubmitEvent } from '@nuxt/ui'
-import { v4 as uuidv4 } from 'uuid'
 import { object, number, string, type InferType } from 'yup'
 
 const props = defineProps<{
-  categoryId?: string
+  categoryId?: number
 }>()
 
 const emit = defineEmits<{
   add: [boolean]
 }>()
 
-const { categories } = useCategories()
+const categoriesStore = useCategoriesStore()
 
 const operationFormSchema = object({
   amount: number().required('Required'),
-  category: string().required('Required'),
+  category: number().required('Required'),
   name: string().required('Required'),
 })
 
@@ -27,11 +26,10 @@ const operationFormState = useResetRef(ref<Partial<OperationFormSchema>>({
   name: undefined,
 }))
 
-const { addOperation } = useOperations()
+const operationsStore = useOperationsStore()
 
 async function submitHandler(event: FormSubmitEvent<OperationFormSchema>) {
-  addOperation({
-    id: uuidv4(),
+  operationsStore.createOperation({
     amount: event.data.amount,
     categoryId: event.data.category,
     name: event.data.name,
@@ -77,7 +75,7 @@ async function submitHandler(event: FormSubmitEvent<OperationFormSchema>) {
     >
       <USelectMenu
         v-model="operationFormState.category"
-        :items="categories"
+        :items="categoriesStore.categories"
         label-key="name"
         value-key="id"
         class="w-full"

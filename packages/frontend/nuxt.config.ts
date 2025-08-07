@@ -6,11 +6,18 @@ export default defineNuxtConfig({
     '@nuxt/icon',
     '@nuxt/ui',
     '@vueuse/nuxt',
+    '@pinia/nuxt',
+    'pinia-plugin-persistedstate/nuxt',
   ],
   ssr: false,
   devtools: { enabled: true },
   ui: {
     colorMode: false,
+  },
+  runtimeConfig: {
+    public: {
+      apiBaseUrl: 'http://localhost:3333',
+    },
   },
   compatibilityDate: '2025-05-15',
   eslint: {

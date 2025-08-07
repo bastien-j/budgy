@@ -1,9 +1,15 @@
 <script setup lang="ts">
-const { operations } = useOperations()
+definePageMeta({
+  middleware: 'auth',
+})
+
+const authStore = useAuthStore()
+const categoriesStore = useCategoriesStore()
+const operationsStore = useOperationsStore()
 
 const income = useLocalStorage('income', 0)
 
-const totalExpenses = computed(() => Math.ceil(operations.value.reduce((acc, operation) => acc + operation.amount, 0)))
+const totalExpenses = computed(() => Math.ceil((operationsStore.operations)?.reduce((acc, operation) => acc + operation.amount, 0) ?? 0))
 
 const remaining = computed(() => Math.max(income.value - totalExpenses.value, 0))
 
@@ -18,13 +24,27 @@ const color = computed(() => {
   }
   return 'success'
 })
+
+onMounted(() => {
+  categoriesStore.refresh()
+  operationsStore.refresh()
+})
 </script>
 
 <template>
   <div class="p-4 space-y-4 max-w-2xl mx-auto">
-    <h1 class="text-2xl font-bold text-center">
-      BUDGY, votre budget mensuel
-    </h1>
+    <div class="flex items-center justify-between gap-4">
+      <h1 class="text-2xl font-bold text-center">
+        BUDGY, votre budget mensuel
+      </h1>
+
+      <UButton
+        color="neutral"
+        icon="material-symbols:logout"
+        label="Déconnexion"
+        @click="authStore.logout()"
+      />
+    </div>
 
     <div class="space-y-2">
       <UFormField label="Revenues mensuels">

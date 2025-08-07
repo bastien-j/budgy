@@ -5,16 +5,16 @@ defineProps<{
   operation: Operation
 }>()
 
-const { removeOperation } = useOperations()
+const operationsStore = useOperationsStore()
 
 const overlay = useOverlay()
 
 const modalDelete = overlay.create(ModalDelete)
 
-async function removeOperationHandler(id: string) {
+async function removeOperationHandler(id: number) {
   const confirm = await modalDelete.open().result
   if (confirm) {
-    removeOperation(id)
+    operationsStore.deleteOperation(id)
   }
 }
 

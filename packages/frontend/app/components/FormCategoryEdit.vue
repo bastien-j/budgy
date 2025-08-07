@@ -20,10 +20,10 @@ const categoryFormState = useResetRef(ref<Partial<CategoryFormSchema>>({
   name: props.category.name,
 }))
 
-const { updateCategory } = useCategories()
+const categoriesStore = useCategoriesStore()
 
 async function submitHandler(event: FormSubmitEvent<CategoryFormSchema>) {
-  updateCategory({
+  categoriesStore.updateCategory({
     id: props.category.id,
     name: event.data.name,
   })

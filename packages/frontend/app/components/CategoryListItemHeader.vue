@@ -5,7 +5,7 @@ defineProps<{
   list: List
 }>()
 
-const { removeCategory } = useCategories()
+const categoriesStore = useCategoriesStore()
 
 const overlay = useOverlay()
 
@@ -14,7 +14,7 @@ const modalDelete = overlay.create(ModalDelete)
 async function removeCategoryHandler(list: List) {
   const confirm = await modalDelete.open().result
   if (confirm) {
-    removeCategory(list.id)
+    categoriesStore.deleteCategory(list.id)
   }
 }
 

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { FormSubmitEvent } from '@nuxt/ui'
-import { v4 as uuidv4 } from 'uuid'
 import { object, string, type InferType } from 'yup'
 
 const emit = defineEmits<{
@@ -17,11 +16,10 @@ const categoryFormState = useResetRef(ref<Partial<CategoryFormSchema>>({
   name: undefined,
 }))
 
-const { addCategory } = useCategories()
+const categoriesStore = useCategoriesStore()
 
 async function submitHandler(event: FormSubmitEvent<CategoryFormSchema>) {
-  addCategory({
-    id: uuidv4(),
+  categoriesStore.createCategory({
     name: event.data.name,
   })
   emit('add')

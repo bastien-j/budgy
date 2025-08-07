@@ -1,5 +1,5 @@
 export interface Category {
-  id: string
+  id: number
   name: string
 }
 
@@ -9,8 +9,8 @@ export interface List extends Category {
 }
 
 export interface Operation {
-  id: string
+  id: number
   amount: number
-  categoryId: string
+  categoryId: number
   name: string
 }

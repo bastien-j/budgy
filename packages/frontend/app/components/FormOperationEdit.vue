@@ -10,12 +10,12 @@ const emit = defineEmits<{
   update: [boolean]
 }>()
 
-const { categories } = useCategories()
-const sortedCategories = computed(() => categories.value.slice().sort((a, b) => a.name.localeCompare(b.name)))
+const categoriesStore = useCategoriesStore()
+const sortedCategories = computed(() => categoriesStore.categories?.slice().sort((a, b) => a.name.localeCompare(b.name)) ?? [])
 
 const operationFormSchema = object({
   amount: number().required('Required'),
-  category: string().required('Required'),
+  category: number().required('Required'),
   name: string().required('Required'),
 })
 
@@ -27,10 +27,10 @@ const operationFormState = useResetRef(ref<Partial<OperationFormSchema>>({
   name: props.operation.name,
 }))
 
-const { updateOperation } = useOperations()
+const operationsStore = useOperationsStore()
 
 async function submitHandler(event: FormSubmitEvent<OperationFormSchema>) {
-  updateOperation({
+  operationsStore.updateOperation({
     id: props.operation.id,
     amount: event.data.amount,
     categoryId: event.data.category,
