@@ -29,6 +29,21 @@ onMounted(() => {
   categoriesStore.refresh()
   operationsStore.refresh()
 })
+
+function exportDataToJSON() {
+  const data = {
+    income: income.value,
+    categories: categoriesStore.categories,
+    operations: operationsStore.operations,
+  }
+
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = 'budget.json'
+  a.click()
+}
 </script>
 
 <template>
@@ -38,12 +53,21 @@ onMounted(() => {
         BUDGY, votre budget mensuel
       </h1>
 
-      <UButton
-        color="neutral"
-        icon="material-symbols:logout"
-        label="Déconnexion"
-        @click="authStore.logout()"
-      />
+      <div class="flex items-center gap-2">
+        <UButton
+          color="neutral"
+          icon="material-symbols:download"
+          label="Exporter"
+          @click="exportDataToJSON()"
+        />
+
+        <UButton
+          color="neutral"
+          icon="material-symbols:logout"
+          label="Déconnexion"
+          @click="authStore.logout()"
+        />
+      </div>
     </div>
 
     <div class="space-y-2">
