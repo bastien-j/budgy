@@ -47,7 +47,7 @@ function exportDataToJSON() {
 </script>
 
 <template>
-  <div class="p-4 space-y-4 max-w-2xl mx-auto">
+  <div class="p-4 space-y-4 max-w-4xl mx-auto">
     <div class="flex items-center justify-between gap-4">
       <h1 class="text-2xl font-bold text-center">
         BUDGY, votre budget mensuel
@@ -61,8 +61,10 @@ function exportDataToJSON() {
           @click="exportDataToJSON()"
         />
 
+        <ModalImport />
+
         <UButton
-          color="neutral"
+          color="error"
           icon="material-symbols:logout"
           label="Déconnexion"
           @click="authStore.logout()"

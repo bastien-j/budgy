@@ -1,6 +1,6 @@
 <template>
   <NuxtRouteAnnouncer />
-  <UApp>
+  <UApp :toaster="{ duration: 3000 }">
     <NuxtPage />
   </UApp>
 </template>

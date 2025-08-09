@@ -1,26 +1,35 @@
 export const useCategoriesStore = defineStore('categories', () => {
   const { data, clear, refresh } = useAPI<Category[]>('/categories')
 
-  async function createCategory(category: Partial<Category>) {
+  const toast = useToast()
+
+  async function createCategory(category: Partial<Category>, silent = false) {
     try {
-      await useNuxtApp().$api('/categories', {
+      const newCategory = await useNuxtApp().$api<Category>('/categories', {
         method: 'POST',
         body: category,
       })
-      await refresh()
+      if (!silent) {
+        await refresh()
+        toast.add({ title: 'Catégorie créée', color: 'success' })
+      }
+      return newCategory
     }
     catch (error) {
       console.error(error)
     }
   }
 
-  async function updateCategory(category: Partial<Category>) {
+  async function updateCategory(category: Partial<Category>, silent = false) {
     try {
-      await useNuxtApp().$api(`/categories/${category.id}`, {
+      await useNuxtApp().$api<Category>(`/categories/${category.id}`, {
         method: 'PATCH',
         body: category,
       })
-      await refresh()
+      if (!silent) {
+        await refresh()
+        toast.add({ title: 'Catégorie mise à jour', color: 'success' })
+      }
     }
     catch (error) {
       console.error(error)
@@ -33,10 +42,15 @@ export const useCategoriesStore = defineStore('categories', () => {
         method: 'DELETE',
       })
       await refresh()
+      toast.add({ title: 'Catégorie supprimée', color: 'success' })
     }
     catch (error) {
       console.error(error)
     }
+  }
+
+  function findCategory(name: string) {
+    return data.value?.find(category => category.name === name)
   }
 
   return {
@@ -44,6 +58,7 @@ export const useCategoriesStore = defineStore('categories', () => {
     createCategory,
     updateCategory,
     deleteCategory,
+    findCategory,
     clear,
     refresh,
   }

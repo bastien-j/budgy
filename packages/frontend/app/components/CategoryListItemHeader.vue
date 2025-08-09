@@ -6,6 +6,7 @@ defineProps<{
 }>()
 
 const categoriesStore = useCategoriesStore()
+const operationsStore = useOperationsStore()
 
 const overlay = useOverlay()
 
@@ -14,7 +15,8 @@ const modalDelete = overlay.create(ModalDelete)
 async function removeCategoryHandler(list: List) {
   const confirm = await modalDelete.open().result
   if (confirm) {
-    categoriesStore.deleteCategory(list.id)
+    await categoriesStore.deleteCategory(list.id)
+    operationsStore.refresh()
   }
 }
 
